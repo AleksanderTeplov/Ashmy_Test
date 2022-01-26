@@ -12568,10 +12568,12 @@ function handleTouchMove(evt) {
   if (!xDown) return;
   
   var xUp = evt.touches[0].clientX;
-  var xDiff = xDown - xUp + 8;
+  var xDiff = xDown - xUp - 8;
+
+  console.log(xDiff)
 
   if (Math.abs(xDiff) ) {/* отлавливаем разницу в движении */
-    if (xDiff < 0) closeMenu();
+    if (xDiff > 0) closeMenu();
   }
 
   xDown = null;
