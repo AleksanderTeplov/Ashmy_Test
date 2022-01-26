@@ -12442,6 +12442,150 @@ document.addEventListener("DOMContentLoaded", function (event) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
+const search_btn = document.querySelector('.header__search-btn-open');
+const search_container = document.querySelector('.header__search-form');
+const search_close = document.querySelector('.header__search-close');
+
+if (search_btn) {
+  search_btn.addEventListener('click', function(){
+    this.classList.toggle('_active');
+    if (search_container) {
+      search_container.classList.toggle('_active');
+    }
+  })
+  search_close.addEventListener('click', function(e){
+    e.preventDefault()
+    if (search_container) {
+      search_container.classList.toggle('_active');
+    }
+  })
+}
+
+/***/ }),
+/* 109 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+let modal_links = document.querySelectorAll('[data-modal-link]');
+let modal_btn_close = document.querySelectorAll('[data-modal-close]');
+let lock_padding = document.querySelectorAll('._lock-padding');
+let modal_unlock = true;
+let modal_timeout = 800;
+
+
+function body_lock() {
+  let lock_padding_value = window.innerWidth - document.querySelector('.page').offsetWidth + 'px';
+
+  if (lock_padding.length > 0) {
+    lock_padding.forEach(el => {
+      el.style.paddingRight = lock_padding_value;
+    });
+  }
+
+  body.style.paddingRight = lock_padding_value;
+  body.classList.add('_scroll-lock');
+  html.classList.add('_scroll-lock');
+
+
+  modal_unlock = false;
+  setTimeout(() => {
+    modal_unlock = true;
+  }, modal_timeout);
+}
+
+function body_un_lock() {
+  setTimeout(() => {
+    if (lock_padding.length > 0) {
+      lock_padding.forEach(el => {
+        el.style.paddingRight = "0px";
+      });
+    }
+
+    body.style.paddingRight = "0px";
+    body.classList.remove('_scroll-lock');
+  }, modal_timeout);
+
+  modal_unlock = false;
+  setTimeout(() => {
+    modal_unlock = true;
+  }, modal_timeout);
+}
+
+
+
+
+
+
+
+const burger = document.querySelector('.header__burger'),
+  menu_close = document.querySelector('.menu-wraper__close'),
+  menu = document.querySelector('.menu-wraper'),
+  toggle_menu = function () {
+    menu.classList.toggle('_active');
+  },
+  hide_menu = function (e) {
+    let this_menu = e.target == menu || menu.contains(e.target),
+      this_burger = e.target == burger ||
+        e.target == burger.childNodes[1] ||
+        e.target == burger.childNodes[3],
+      menu_active = menu.classList.contains('_active');
+
+    if (!this_menu && !this_burger && menu_active) {
+      toggle_menu();
+    }
+  },
+  openMenu = function () {
+    if (!burger.classList.contains('_active')) {
+      toggle_menu();
+    }
+  },
+  closeMenu = function (e) {
+    if (menu.classList.contains('_active')) {
+      toggle_menu();
+    }
+  };
+
+document.addEventListener('click', hide_menu);
+// document.addEventListener('scroll', hide_menu);
+burger.addEventListener("click", openMenu);
+menu_close.addEventListener("click", closeMenu);
+
+
+
+
+var xDown = null;
+
+function getTouches(evt) {
+  return evt.touches;
+}
+
+function handleTouchStart(evt) {
+  const firstTouch = getTouches(evt)[0];
+  xDown = firstTouch.clientX;
+};
+
+function handleTouchMove(evt) {
+  if (!xDown) return;
+  
+  var xUp = evt.touches[0].clientX;
+  var xDiff = xDown - xUp + 8;
+
+  if (Math.abs(xDiff) ) {/* отлавливаем разницу в движении */
+    if (xDiff < 0) closeMenu();
+  }
+
+  xDown = null;
+};
+
+menu.addEventListener('touchstart', handleTouchStart, false)
+menu.addEventListener('touchmove', handleTouchMove, false)
+
+
+/***/ }),
+/* 110 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "isWebp": () => (/* binding */ isWebp)
 /* harmony export */ });
@@ -12531,7 +12675,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_sliders_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
 /* harmony import */ var _components_selects_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(106);
 /* harmony import */ var _components_dataTransfer_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(107);
-/* harmony import */ var _components_isWebp_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(108);
+/* harmony import */ var _components_search_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(108);
+/* harmony import */ var _components_burger_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(109);
+/* harmony import */ var _components_isWebp_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(110);
 // import components ------------
 // import "./components/burger.js";
 
@@ -12542,9 +12688,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 // import webp
 
-_components_isWebp_js__WEBPACK_IMPORTED_MODULE_5__.isWebp();
+_components_isWebp_js__WEBPACK_IMPORTED_MODULE_7__.isWebp();
 })();
 
 /******/ })()
